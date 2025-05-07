@@ -1,4 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { CreateUserDto } from 'src/dtos/create-user.dto';
+import { UpdateUserDto } from 'src/dtos/update-user.dto';
 /**
  * Providers can be used to create a service, repository, factories, helpers, etc., that can be injected as a dependency.
  * This means that objects can create varioust relationships with each other, and the function of "wiring up" these objects can largely be delegated to the framework runtime system.
@@ -25,18 +27,18 @@ export class UsersService {
         return this.users.find(user => user.id === id);
     }
 
-    createUser(user: { name: string; email: string; role: 'INTERN' | 'ENGINEER' | 'MANAGER' }) {
+    createUser(user: CreateUserDto) {
         //This will be done by the database automatically, so just creating a basic index number here in the meantime
         const newUser = { id: this.users.length + 1, ...user };
         this.users.push(newUser);
         return newUser;
     }
 
-    updateUser(id: number, user: { name?: string; email?: string; role?: 'INTERN' | 'ENGINEER' | 'MANAGER' }) {
+    updateUser(id: number, updateUser: UpdateUserDto) {
         const index = this.users.findIndex(u => u.id === id);
         this.users = this.users.map(user => {
             if (user.id === id) {
-                return { ...user, ...user };
+                return { ...user, ...updateUser };
             }
             return user;
         });
