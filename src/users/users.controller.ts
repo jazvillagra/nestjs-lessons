@@ -1,19 +1,20 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { UsersService } from './users.service';
+
 
 @Controller('users')
 export class UsersController {
-    /**
-     * Get all users or users by filter
-     * @returns 
-     */
+
+    constructor(private readonly usersService: UsersService) { }
+
     @Get()
     getUsersByFilter(@Query('role') role?: 'INTERN' | 'ENGINEER' | 'MANAGER') {
-        return [];
+        return this.usersService.findUsers(role);
     }
 
     @Post()
-    createUser(@Body() user: {}) {
-        return user;
+    createUser(@Body() user: { name: string; email: string; role: 'INTERN' | 'ENGINEER' | 'MANAGER' }) {
+        return this.usersService.createUser(user);
     }
 
     /**
@@ -24,17 +25,17 @@ export class UsersController {
 
     @Get(':id')
     getUserById(@Param('id') id: string) {
-        return { id };
+        return this.usersService.findById(+id);
     }
 
     @Patch(':id')
     updateUser(@Param('id') id: string, @Body() user: {}) {
-        return { id, ...user };
+        return this.usersService.updateUser(+id, user);
     }
 
     @Delete(':id')
     deleteUser(@Param('id') id: string) {
-        return 'User deleted';
+        return this.usersService.deleteUser(+id);
     }
 
 
