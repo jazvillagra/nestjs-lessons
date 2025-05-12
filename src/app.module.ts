@@ -5,6 +5,7 @@ import { UsersModule } from './users/users.module';
 import { DatabaseModule } from './database/database.module';
 import { EmployeesModule } from './employees/employees.module';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { AppLoggerModule } from './app-logger/app-logger.module';
 //main module file - specifies imports, controllers and providers
 @Module({
   imports: [
@@ -18,7 +19,8 @@ import { ThrottlerModule } from '@nestjs/throttler';
     }),
     UsersModule,
     DatabaseModule,
-    EmployeesModule],
+    EmployeesModule,
+    AppLoggerModule],
   controllers: [AppController],
   providers: [
     {
